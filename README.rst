@@ -47,3 +47,20 @@ Note
 
 This project has been set up using PyScaffold 4.5. For details and usage
 information on PyScaffold see https://pyscaffold.org/.
+
+
+
+```bash
+python3 -m steamy_kanban_server
+```
+
+run tests
+```bash
+tox
+```
+
+pip install locally and keep updated
+
+```bash
+pip install -e .
+```
