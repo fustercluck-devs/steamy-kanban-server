@@ -64,3 +64,12 @@ pip install locally and keep updated
 ```bash
 pip install -e .
 ```
+
+
+Run with docker
+```bash
+docker build . -t steamybox
+docker run -it steamybox /bin/bash
+python -m steamy_kanban_server
+>>> Hello world!
+```
