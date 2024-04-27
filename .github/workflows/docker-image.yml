@@ -11,6 +11,7 @@ jobs:
 
     steps:
 
+      - uses: actions/checkout@v3
       - name: Docker Publish
         uses: manusa/actions-publish-docker@v1.1.2
         with:
