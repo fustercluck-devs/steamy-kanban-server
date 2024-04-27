@@ -26,4 +26,4 @@ jobs:
           context: .
           file: ./dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest
+          tags: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest, ${{ secrets.DOCKER_USER }}/steamy-kanban-server:$(date +%s)
