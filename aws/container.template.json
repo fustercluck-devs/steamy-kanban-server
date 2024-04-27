@@ -1,7 +1,7 @@
 {
     "serviceName": "",
     "containers": {
-        "SteamyKanbanServer": {
+        "steamykanbanserver": {
             "image": "$image",
             "ports": {
                 "5000": "HTTP"
@@ -9,7 +9,7 @@
         }
     },
     "publicEndpoint": {
-        "containerName": "SteamyKanbanServer",
+        "containerName": "steamykanbanserver",
         "containerPort": 5000,
         "healthCheck": {
             "healthyThreshold": 0,
