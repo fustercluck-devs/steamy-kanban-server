@@ -1,7 +1,23 @@
 {
-    "containers":{
-        "app":{
-            "image": "$image"
+    "serviceName": "",
+    "containers": {
+        "SteamyKanbanServer": {
+            "image": "$image",
+            "ports": {
+                "5000": "HTTP"
+            }
+        }
+    },
+    "publicEndpoint": {
+        "containerName": "SteamyKanbanServer",
+        "containerPort": 5000,
+        "healthCheck": {
+            "healthyThreshold": 0,
+            "unhealthyThreshold": 0,
+            "timeoutSeconds": 0,
+            "intervalSeconds": 0,
+            "path": "",
+            "successCodes": ""
         }
     }
 }

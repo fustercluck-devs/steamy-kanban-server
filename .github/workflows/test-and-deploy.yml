@@ -5,9 +5,7 @@ name: Tox
 
 on:
   push:
-  #  branches: [ "master" ]
- # pull_request:
- #   branches: [ "master" ]
+    branches: [ "master" ]
 
 permissions:
   contents: read
@@ -82,5 +80,4 @@ jobs:
           --image steamy_kanban_server
         aws lightsail get-container-images --service-name steamy-kanban-service | jq --raw-output ".containerImages[0].image" > image.txt
         jq --arg image $(cat image.txt) '.containers.app.image = $image' aws/container.template.json > container.json
-        aws lightsail create-container-service-deployment --service-name steamy-kanban-service --cli-input-json file://$(pwd)/container.json \
-          --public-endpoint file://aws/public-endpoint.json
+        aws lightsail create-container-service-deployment --service-name steamy-kanban-service --cli-input-json file://$(pwd)/container.json
