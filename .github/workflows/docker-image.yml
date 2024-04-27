@@ -30,13 +30,29 @@ jobs:
       - name: Build the Docker image
         run: docker build . --tag steamy_kanban_server
         
-      - uses: fdiesel/github-action-deploy-aws-lightsail-container@v3.0.1
-        with:
-          image-name: steamy-kanban-server
-          image: steamy_kanban_server
-          aws-region: ${{ secrets.AWS_REGION }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-access-key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-lightsail-service: ${{ secrets.AWS_LIGHTSAIL_SERVICE }}
-          aws-lightsail-service-config: ${{ secrets.AWS_LIGHTSAIL_SERVICE_CONFIG }}
-          aws-lightsail-clear-images: false
+      - name: set-up credentials         
+
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_ACCESS_KEY }}
+          aws configure set default.region ${{secrets.AWS_REGION}}
+          aws configure set region ${{secrets.AWS_REGION}}
+          cat ~/.aws/credentials
+          
+      - name: Install essentials
+        run: |
+          aws --version
+
+          # install LightsailCTL Plugin (https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software)
+          curl https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl -o /usr/local/bin/lightsailctl
+          chmod +x /usr/local/bin/lightsailctl
+      - name: push-container-and-deploy
+         
+        shell: bash         
+        run: |
+          echo "pushing container"
+          # upload the docker image for this pipeline
+          aws lightsail push-container-image \
+            --service-name steamy-kanban-service  \
+            --label steamy-server \
+            --image steamy_kanban_server
