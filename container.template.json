@@ -1,4 +1,7 @@
 {
-    "containerName": "$image",
-    "containerPort": 5000
-  }
+    "containers":{
+        "app":{
+            "image": "$image"
+        }
+    }
+}
