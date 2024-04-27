@@ -1,10 +1,6 @@
-from flask import Flask
 
-if __name__ == "__main__":
-    app = Flask(__name__)
+from steamy_kanban_server.app import setup_app # pragma: no cover
 
-    @app.route('/')
-    def hello():
-        return 'Hello, World!'
-    
+if __name__ == "__main__": # pragma: no cover
+    app = setup_app() 
     app.run()
