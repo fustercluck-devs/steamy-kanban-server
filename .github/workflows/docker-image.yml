@@ -23,7 +23,7 @@ jobs:
           # Password for Docker registry
           password:  ${secrets.DOCKER_PASS}
           # Registry URL
-          registry: "https://hub.docker.com/positev"
+          registry: "hub.docker.com/positev"
           # Path to Dockerfile
           dockerfile path: .
             
