@@ -2,9 +2,6 @@ name: Build docker image
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
 
@@ -15,22 +12,20 @@ jobs:
     steps:
 
       - name: Docker Publish
-      # You may pin to the exact commit or the version.
-      # uses: manusa/actions-publish-docker@db938e45d2a3487e0eab9646e83550f554c17af3
-      uses: manusa/actions-publish-docker@v1.1.2
-      with:
-        # Name of the Docker image
-        name: steamy-kanban-server
-        # Tag for the Docker image
-        tag: steamy_kanban_server:$(date +%s)
-        # Username for Docker registry
-        username: ${secrets.DOCKER_USER}
-        # Password for Docker registry
-        password:  ${secrets.DOCKER_PASS}
-        # Registry URL
-        registry: "https://hub.docker.com/"
-        # Path to Dockerfile
-        dockerfile path: .
+        uses: manusa/actions-publish-docker@v1.1.2
+        with:
+          # Name of the Docker image
+          name: steamy-kanban-server
+          # Tag for the Docker image
+          tag: steamy_kanban_server:$(date +%s)
+          # Username for Docker registry
+          username: ${secrets.DOCKER_USER}
+          # Password for Docker registry
+          password:  ${secrets.DOCKER_PASS}
+          # Registry URL
+          registry: "https://hub.docker.com/"
+          # Path to Dockerfile
+          dockerfile path: .
             
 
     # uses: fdiesel/github-action-deploy-aws-lightsail-container@8b671d46048f37541346518e1eb847c81aeb2200
