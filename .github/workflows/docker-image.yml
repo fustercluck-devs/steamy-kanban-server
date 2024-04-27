@@ -28,7 +28,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest
 
-      - uses: fdiesel/github-action-deploy-aws-lightsail-container@version
+      - uses: fdiesel/github-action-deploy-aws-lightsail-container
         with:
           image-name: steamy-kanban-server
           image: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest
