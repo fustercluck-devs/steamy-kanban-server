@@ -25,7 +25,7 @@ jobs:
           # Registry URL
           registry: "hub.docker.com"
           # Path to Dockerfile
-          dockerfile path: .
+          dockerfile path: ./dockerfile
             
 
     # uses: fdiesel/github-action-deploy-aws-lightsail-container@8b671d46048f37541346518e1eb847c81aeb2200
