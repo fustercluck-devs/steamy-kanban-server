@@ -17,7 +17,7 @@ jobs:
           # Name of the Docker image
           name: steamy-kanban-server
           # Tag for the Docker image
-          tag: steamy_kanban_server:$(date +%s)
+          tag: $(date +%s)
           # Username for Docker registry
           username: ${secrets.DOCKER_USER}
           # Password for Docker registry
