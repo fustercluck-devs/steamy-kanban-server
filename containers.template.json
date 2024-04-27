@@ -1,0 +1,8 @@
+{
+    "flask": {
+        "image": "$image",
+        "ports": {
+            "5000": "HTTP"
+        }
+    }
+}
