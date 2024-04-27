@@ -5,6 +5,4 @@ Changelog
 Version 0.1
 ===========
 
-- Feature A added
-- FIX: nasty bug #1729 fixed
-- add your changes here!
+- Added /v1/steamfacade/appdetails?appids=<STEAM_APP_ID> endpoint to retrieve data from steam for an app id
