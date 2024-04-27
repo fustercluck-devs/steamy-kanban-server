@@ -5,9 +5,9 @@ name: Tox
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  #  branches: [ "master" ]
+ # pull_request:
+ #   branches: [ "master" ]
 
 permissions:
   contents: read
@@ -33,50 +33,54 @@ jobs:
         tox
         
     - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASS }}
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      if: success()
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
+    - name: Set up Docker Buildx
+      if: success()
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build and push
+      if: success()
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest
+    - name: Build the Docker image
+      run: docker build . --tag steamy_kanban_server
+      
+    - name: set-up credentials  
+      if: success()       
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_ACCESS_KEY }}
+        aws configure set default.region ${{secrets.AWS_REGION}}
+        aws configure set region ${{secrets.AWS_REGION}}
+        cat ~/.aws/credentials
         
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest
-      - name: Build the Docker image
-        run: docker build . --tag steamy_kanban_server
-        
-      - name: set-up credentials         
+    - name: Install essentials
+      if: success()
+      run: |
+        aws --version
 
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_ACCESS_KEY }}
-          aws configure set default.region ${{secrets.AWS_REGION}}
-          aws configure set region ${{secrets.AWS_REGION}}
-          cat ~/.aws/credentials
-          
-      - name: Install essentials
-        run: |
-          aws --version
-
-          # install LightsailCTL Plugin (https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software)
-          curl https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl -o /usr/local/bin/lightsailctl
-          chmod +x /usr/local/bin/lightsailctl
-      - name: push-container-and-deploy
-         
-        shell: bash         
-        run: |
-          echo "pushing container"
-          # upload the docker image for this pipeline
-          aws lightsail push-container-image \
-            --service-name steamy-kanban-service  \
-            --label steamy-server \
-            --image steamy_kanban_server
-          aws lightsail get-container-images --service-name steamy-kanban-service | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat image.txt) '.containers.app.image = $image' aws/container.template.json > container.json
-          aws lightsail create-container-service-deployment --service-name steamy-kanban-service --cli-input-json file://$(pwd)/container.json \
+        # install LightsailCTL Plugin (https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software)
+        curl https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl -o /usr/local/bin/lightsailctl
+        chmod +x /usr/local/bin/lightsailctl
+    - name: push-container-and-deploy
+      if: success()
+      shell: bash         
+      run: |
+        echo "pushing container"
+        # upload the docker image for this pipeline
+        aws lightsail push-container-image \
+          --service-name steamy-kanban-service  \
+          --label steamy-server \
+          --image steamy_kanban_server
+        aws lightsail get-container-images --service-name steamy-kanban-service | jq --raw-output ".containerImages[0].image" > image.txt
+        jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container.json
+        aws lightsail create-container-service-deployment --service-name steamy-kanban-service --cli-input-json file://$(pwd)/container.json \
           --public-endpoint file://aws/public-endpoint.json
