@@ -26,4 +26,15 @@ jobs:
           context: .
           file: ./dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest, ${{ secrets.DOCKER_USER }}/steamy-kanban-server:$(date +%s)
+          tags: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest
+
+      - uses: fdiesel/github-action-deploy-aws-lightsail-container@version
+        with:
+          image-name: steamy-kanban-server
+          image: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-lightsail-service: ${{ secrets.AWS_LIGHTSAIL_SERVICE }}
+          aws-lightsail-service-config: ${{ secrets.AWS_LIGHTSAIL_SERVICE_CONFIG }}
+          aws-lightsail-clear-images: false
