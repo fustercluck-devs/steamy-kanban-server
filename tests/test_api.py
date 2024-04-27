@@ -46,8 +46,6 @@ def test_api_will_retrieve_data_from_steam_for_an_app_id(client):
     )
 
     with requests_mock.Mocker() as m:
-        import requests
-
         with open(sample_response_from_steam) as fake_response_file:
             steam_response = json.loads(fake_response_file.read())
             m.get(
