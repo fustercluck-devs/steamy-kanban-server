@@ -16,7 +16,7 @@ jobs:
         uses: manusa/actions-publish-docker@v1.1.2
         with:
           # Name of the Docker image
-          name: steamy-kanban-server
+          name: positev/steamy-kanban-server
           # Tag for the Docker image
           tag: $(date +%s)
           # Username for Docker registry
