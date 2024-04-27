@@ -27,11 +27,13 @@ jobs:
           file: ./dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/steamy-kanban-server:latest
-
+      - name: Build the Docker image
+        run: docker build . --tag steamy_kanban_server
+        
       - uses: fdiesel/github-action-deploy-aws-lightsail-container@v3.0.1
         with:
           image-name: steamy-kanban-server
-          image: positev/steamy-kanban-server:latest
+          image: steamy_kanban_server
           aws-region: ${{ secrets.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-access-key: ${{ secrets.AWS_ACCESS_KEY }}
