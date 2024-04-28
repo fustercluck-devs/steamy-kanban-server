@@ -34,10 +34,7 @@ steamy-kanban-server
 ====================
 
 
-    Add a short description here!
-
-
-A longer description of your project goes here...
+    An `api <steamy-kanban-service.c006ju9rk0vp0.us-east-2.cs.amazonlightsail.com>`_ to do whatever @iaregoosedev wants for his website 
 
 
 .. _pyscaffold-notes:
