@@ -34,7 +34,7 @@ steamy-kanban-server
 ====================
 
 
-    An `api <steamy-kanban-service.c006ju9rk0vp0.us-east-2.cs.amazonlightsail.com>`_ to do whatever @iaregoosedev wants for his website 
+    An `api <https://steamy-kanban-service.c006ju9rk0vp0.us-east-2.cs.amazonlightsail.com>`_ to do whatever @iaregoosedev wants for his website 
 
 
 .. _pyscaffold-notes:
